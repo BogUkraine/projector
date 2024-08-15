@@ -2,7 +2,8 @@ version: '3'
 
 services:
   nginx:
-    image: nginx:latest
+    build:
+      context: .
     ports:
       - "8080:80"
     volumes:
