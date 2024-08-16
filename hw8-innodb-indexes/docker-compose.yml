@@ -1,0 +1,17 @@
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'test'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '3306:3306'
+    command: --innodb-buffer-pool-size=${MYSQL_BUFFER_SIZE} --innodb_flush_log_at_trx_commit=${MYSQL_FLUSH_LOG}
+    volumes:
+      - proj-hw8-mysql:/var/lib/mysql
+
+volumes:
+  proj-hw8-mysql:

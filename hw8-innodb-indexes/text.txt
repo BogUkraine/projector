@@ -1,0 +1,102 @@
+NO INDEXES
+
+SELECT * FROM users
+    WHERE username LIKE "%?%"
+    LIMIT 1000
+
+undefined
+query: 9.188s
+
+    SELECT * FROM users
+    WHERE date_of_birth = ?
+    LIMIT 1000
+
+undefined
+query: 9.666s
+
+    SELECT * FROM users
+    WHERE date_of_birth > ?
+    LIMIT 1000
+
+undefined
+query: 7.75ms
+
+    SELECT * FROM users
+    WHERE date_of_birth < ?
+    LIMIT 1000
+
+undefined
+query: 13.634ms
+
+
+INSERT: 416.795ms (100 per 100)
+
+
+CREATE INDEX BTREE
+BTREE: 1:20.931 (m:ss.mmm)
+
+
+    SELECT * FROM users
+    WHERE username LIKE "%?%"
+    LIMIT 1000
+
+undefined
+query: 9.194s
+
+    SELECT * FROM users
+    WHERE date_of_birth = ?
+    LIMIT 1000
+
+undefined
+query: 1.53ms
+
+    SELECT * FROM users
+    WHERE date_of_birth > ?
+    LIMIT 1000
+
+undefined
+query: 8.536ms
+
+    SELECT * FROM users
+    WHERE date_of_birth < ?
+    LIMIT 1000
+
+undefined
+query: 8.151ms
+
+INSERT: 2.036s (100 per 100)
+
+DROP: 45.397ms
+
+HASH: 1:05.161 (m:ss.mmm)
+
+INSERT: 1.399s
+
+
+    SELECT * FROM users
+    WHERE username LIKE "%?%"
+    LIMIT 1000
+
+undefined
+query: 19.232s
+
+    SELECT * FROM users
+    WHERE date_of_birth = ?
+    LIMIT 1000
+
+undefined
+query: 1.541ms
+
+    SELECT * FROM users
+    WHERE date_of_birth > ?
+    LIMIT 1000
+
+undefined
+query: 15.244ms
+
+    SELECT * FROM users
+    WHERE date_of_birth < ?
+    LIMIT 1000
+
+undefined
+query: 6.115ms
