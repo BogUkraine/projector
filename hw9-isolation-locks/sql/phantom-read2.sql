@@ -1,0 +1,9 @@
+SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;
+
+USE test_db;
+SET autocommit=0;
+
+-- Transaction 2
+START TRANSACTION;
+INSERT INTO test_table (value) VALUES (50);
+COMMIT;

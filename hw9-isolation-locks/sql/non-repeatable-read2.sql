@@ -1,0 +1,9 @@
+SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;
+
+USE test_db;
+SET autocommit=0;
+
+-- Transaction 2
+START TRANSACTION;
+UPDATE test_table SET value = 40 WHERE id = 1;
+COMMIT;

@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  percona:
+    image: percona:latest
+    container_name: hw9-percona
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - hw9-percona_data:/var/lib/mysql
+
+  postgres:
+    image: postgres:latest
+    container_name: hw9-postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: test_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - hw9-postgres_data:/var/lib/postgresql/data
+
+volumes:
+  hw9-percona_data:
+  hw9-postgres_data:
