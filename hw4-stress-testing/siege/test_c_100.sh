@@ -1,0 +1,1 @@
+siege --reps=500 --concurrent=100 --internet --verbose --file=siege/siege_local.txt

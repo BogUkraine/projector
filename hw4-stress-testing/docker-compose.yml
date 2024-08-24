@@ -1,0 +1,43 @@
+version: '3.5'
+
+services:
+    # app:
+    #     build:
+    #         context: .
+    #         dockerfile: Dockerfile
+    #     depends_on:
+    #         postgres:
+    #             condition: service_started
+    #     ports:
+    #         - '${PORT}:${PORT}'
+
+    postgres:
+        container_name: postgres_container
+        image: postgres:16
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            PGDATA: /data/postgres
+            POSTGRES_DB: ${POSTGRES_DB}
+        volumes:
+            - proj_stress_postgres:/data/postgres
+        ports:
+            - '${POSTGRES_HOST_PORT}:${POSTGRES_CONTAINER_PORT}'
+        restart: unless-stopped
+
+    pgadmin: # I use dbeaver locally, but for the consistency of the setup it is here
+        container_name: pgadmin_container
+        image: dpage/pgadmin4
+        environment:
+            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+            PGADMIN_CONFIG_SERVER_MODE: 'False'
+        volumes:
+            - proj_stress_pgadmin:/var/lib/pgadmin
+        ports:
+            - '${PGADMIN_PORT:-5050}:80'
+        restart: unless-stopped
+
+volumes:
+    proj_stress_postgres:
+    proj_stress_pgadmin:

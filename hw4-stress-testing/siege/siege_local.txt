@@ -1,0 +1,2 @@
+http://localhost:3000/messages GET
+http://localhost:3000/messages POST text=text

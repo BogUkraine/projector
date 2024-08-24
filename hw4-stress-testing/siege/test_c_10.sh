@@ -1,0 +1,1 @@
+siege --delay=0.01 --reps=2000 --concurrent=10 --internet --verbose --file=siege/siege_local.txt
