@@ -51,9 +51,11 @@ value
 40
 ```
 
-### Lost update -- was not reproduced
+### Lost update
 *Isolation Level: REPEATABLE READ.*<br />
 Occurs when two transactions read the same data and then update it based on the value read, leading to one update being "lost".<br /><br />
 The second command should be called from a different terminal within 5 seconds after the first command was called.
 1. `cat /sql/lost-update1.sql | docker exec -i hw9-mysql mysql -u root -proot` - Creates a transaction to perform a select. Sleeps 5 seconds. Performs an update taking the last value we selected. However, update operation reads from db (committed changes) instead of reading from the snapshot. Thus, select returns value = 10, when update where ... returns 0 and updates it.
 2. `cat /sql/lost-update2.sql | docker exec -i hw9-mysql mysql -u root -proot` - Creates a transaction to update a value;
+
+However, the first transaction doesn't know anything in SELECT statement about changes made by second transaction. The first one could make other operations without a knowledge of changes, what can violate data consistency. If that's supposed to be a lost update problem, then reproduced.
