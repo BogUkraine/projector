@@ -1,0 +1,3 @@
+http://localhost:3000/probabilistic/aaa GET
+http://localhost:3000/optimized/bbb GET
+http://localhost:3000/ POST

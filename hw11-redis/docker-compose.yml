@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+    redis-master:
+        image: redis:latest
+        container_name: redis-master
+        ports:
+            - '6379:6379'
+        volumes:
+            - redis-master-data:/data
+        command: ['redis-server', '--appendonly', 'yes', '--maxmemory', '500mb', '--maxmemory-policy', 'allkeys-lru']
+
+    redis-slave1:
+        image: redis:latest
+        container_name: redis-slave1
+        depends_on:
+            - redis-master
+        environment:
+            - REDIS_REPLICATION_MODE=slave
+            - REDIS_MASTER_HOST=redis-master
+            - REDIS_MASTER_PORT=6379
+        ports:
+            - '6380:6379'
+        volumes:
+            - redis-slave1-data:/data
+        command:
+            [
+                'redis-server',
+                '--slaveof',
+                'redis-master',
+                '6379',
+                '--appendonly',
+                'yes',
+                '--maxmemory',
+                '500mb',
+                '--maxmemory-policy',
+                'allkeys-lru',
+            ]
+
+    redis-slave2:
+        image: redis:latest
+        container_name: redis-slave2
+        depends_on:
+            - redis-master
+        environment:
+            - REDIS_REPLICATION_MODE=slave
+            - REDIS_MASTER_HOST=redis-master
+            - REDIS_MASTER_PORT=6379
+        ports:
+            - '6381:6379'
+        volumes:
+            - redis-slave2-data:/data
+        command:
+            [
+                'redis-server',
+                '--slaveof',
+                'redis-master',
+                '6379',
+                '--appendonly',
+                'yes',
+                '--maxmemory',
+                '500mb',
+                '--maxmemory-policy',
+                'allkeys-lru',
+            ]
+
+    redisinsight:
+        image: redislabs/redisinsight:latest
+        container_name: redisinsight
+        ports:
+            - '5540:5540'
+        depends_on:
+            - redis-master
+            - redis-slave1
+            - redis-slave2
+
+volumes:
+    redis-master-data:
+    redis-slave1-data:
+    redis-slave2-data:

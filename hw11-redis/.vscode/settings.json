@@ -1,0 +1,42 @@
+{
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features",
+        "editor.quickSuggestions": {
+            "strings": true
+        },
+        "editor.suggest.insertMode": "replace",
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[yaml]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "eslint.format.enable": false,
+    "eslint.lintTask.enable": true,
+    "eslint.codeActionsOnSave.rules": null,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "eslint.validate": [
+        "javascript",
+        "typescript",
+    ],
+    "eslint.runtime": "",
+    "eslint.run": "onSave",
+    "eslint.debug": true,
+    "eslint.trace.server": "verbose",
+    "editor.formatOnSave": true,
+    "editor.detectIndentation": false,
+    "editor.indentSize": "tabSize",
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4,
+    "prettier.requireConfig": true,
+}

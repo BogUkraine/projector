@@ -1,0 +1,27 @@
+{
+    "name": "hw11-redis",
+    "version": "1.0.0",
+    "description": "Build master-slave redis cluster. Try all eviction strategies. Write a wrapper for Redis Client that implement probabilistic cache.",
+    "main": ".eslintrc.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node src/index.js",
+        "lint": "eslint .",
+        "format": "prettier --write ."
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "eslint": "^9.9.1",
+        "eslint-config-prettier": "^9.1.0",
+        "eslint-plugin-prettier": "^5.2.1",
+        "prettier": "^3.3.3"
+    },
+    "dependencies": {
+        "@faker-js/faker": "^8.4.1",
+        "express": "^4.19.2",
+        "ioredis": "^5.4.1",
+        "redis": "^4.7.0"
+    }
+}
