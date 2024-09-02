@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+    beanstalkd:
+        image: schickling/beanstalkd
+        container_name: beanstalkd
+        ports:
+            - '11300:11300'
+
+    # redis-aof:
+    #     image: redis
+    #     container_name: redis-aof
+    #     command:
+    #         [
+    #             'redis-server',
+    #             '--appendonly',
+    #             'yes',
+    #             '--maxmemory',
+    #             '1000mb',
+    #             '--tcp-keepalive',
+    #             '60',
+    #             '--maxclients',
+    #             '10000',
+    #             '--client-output-buffer-limit',
+    #             'pubsub 256mb 800mb 60',
+    #         ]
+    #     ports:
+    #         - '6379:6379'
+    #     volumes:
+    #         - hw12-redis-data-aof:/data
+
+    redis-rdb:
+        image: redis
+        container_name: redis-rdb
+        command: [
+                'redis-server',
+                '--appendonly',
+                'no',
+                '--maxmemory',
+                '1000mb',
+                '--tcp-keepalive',
+                '60',
+                '--maxclients',
+                '10000',
+                '--client-output-buffer-limit',
+                'pubsub 256mb 800mb 60',
+                '--save',
+                '3 1',
+            ] # rdb - save a snapshot every 3 seconds if there was at least 1 change
+        ports:
+            - '6379:6379'
+        volumes:
+            - hw12-redis-data-rdb:/data
+
+volumes:
+    hw12-redis-data-aof:
+    hw12-redis-data-rdb:
