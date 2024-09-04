@@ -55,7 +55,7 @@ pubsub: 1.647s
 
 #### lPush/lPop
 
-1. Consumer throughput - 1.000.000 / 26.5s = 37735 req/sec - huge performance degradation. But it could be corrected if we took not a single job at a time, but did in in batches
+1. Consumer throughput - 1.000.000 / 26.5s = 37735 req/sec - huge performance degradation. But the result is hidden by `await` expression, that takes one record a time. If we are ment to check **Redis performance** it would be the same as pub/sub. But it could be corrected if we took not a single job at a time, and did in in batches, which would be much faster!
 
 2. Producer throughput - 10.000.000 / 15s = 667000 req/sec - slight improvement
 

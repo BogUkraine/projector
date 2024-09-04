@@ -10,7 +10,7 @@ const QUEUE_NAME = 'test_queue'
 	let counter = 0
 	console.time('pubsub')
 	while (true) {
-		const message = await redisClient.lPop(QUEUE_NAME, 0)
+		await redisClient.lPop(QUEUE_NAME, 0)
 
 		counter++
 		if (counter % 1000000 == 0) {
