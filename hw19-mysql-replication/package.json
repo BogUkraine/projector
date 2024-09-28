@@ -1,0 +1,24 @@
+{
+    "name": "hw19-mysql-replication",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "db:master:config": "cat ./master-init/init.sql | docker exec -i mysql-m mysql -u root -ppassword",
+        "db:slave1:config": "cat ./slave1-init/init.sql | docker exec -i mysql-s1 mysql -u root -ppassword",
+        "db:slave2:config": "cat ./slave2-init/init.sql | docker exec -i mysql-s2 mysql -u root -ppassword",
+        "db:create-table": "cat ./sql/create-table.sql | docker exec -i mysql-m mysql -u root -ppassword",
+        "insert": "node ./scripts/insert.js",
+        "db:slave2:stop": "docker exec -i mysql-s2 mysql -u root -ppassword -e 'STOP SLAVE;'",
+        "db:slave1:drop-column": "cat ./sql/drop-column.sql | docker exec -i mysql-s1 mysql -u root -ppassword"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "@faker-js/faker": "^8.4.1",
+        "dotenv": "^16.4.5",
+        "mysql2": "^3.11.0"
+    }
+}

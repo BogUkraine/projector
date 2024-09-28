@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  mysql-m:
+    image: mysql:8.0
+    container_name: mysql-m
+    command: --server-id=1 --log-bin=mysql-bin --binlog-format=row --binlog-ignore-db=mysql
+    environment:
+      MYSQL_DATABASE: 'test'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    volumes:
+      - proj-hw19-master-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - mysql-replication
+
+  mysql-s1:
+    image: mysql:8.0
+    container_name: mysql-s1
+    command: --server-id=2
+    environment:
+      MYSQL_DATABASE: 'test'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    volumes:
+      - proj-hw19-slave1-data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    depends_on:
+      - mysql-m
+    networks:
+      - mysql-replication
+
+  mysql-s2:
+    image: mysql:8.0
+    container_name: mysql-s2
+    command: --server-id=3
+    environment:
+      MYSQL_DATABASE: 'test'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    volumes:
+      - proj-hw19-slave2-data:/var/lib/mysql
+    ports:
+      - "3308:3306"
+    depends_on:
+      - mysql-m
+    networks:
+      - mysql-replication
+
+
+volumes:
+  proj-hw19-master-data:
+  proj-hw19-slave1-data:
+  proj-hw19-slave2-data:
+
+networks:
+  mysql-replication:
+    driver: bridge
