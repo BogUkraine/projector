@@ -1,0 +1,76 @@
+services:
+  # DNS Server using BIND
+  bind:
+    image: internetsystemsconsortium/bind9:9.18
+    container_name: bind_server
+    ports:
+      - "1053:53/udp"
+      - "1053:53/tcp"
+    environment:
+      - BIND9_LOG_LEVEL=info
+    volumes:
+      - ./bind/named.conf:/etc/bind/named.conf
+      - ./bind/db.cdn.test:/etc/bind/db.cdn.test
+      - ./bind/db.127:/etc/bind/db.127
+    depends_on:
+      - node1
+      - node2
+      - node3
+      - node4
+      - lb1
+      - lb2
+    entrypoint: [ "/usr/sbin/named", "-f", "-c", "/etc/bind/named.conf" ]
+
+  lb1:
+    image: nginx:latest
+    container_name: load_balancer1
+    volumes:
+      - ./nginx/lb1/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "8080:80"
+    depends_on:
+      - node1
+      - node2
+      - node3
+      - node4
+    dns:
+      - 172.27.0.8
+
+  lb2:
+    image: nginx:latest
+    container_name: load_balancer2
+    volumes:
+      - ./nginx/lb2/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "8081:80"
+    depends_on:
+      - node1
+      - node2
+      - node3
+      - node4
+    dns:
+      - 172.27.0.8
+
+  node1:
+    image: httpd:latest
+    container_name: node1
+    volumes:
+      - ./images:/usr/local/apache2/htdocs
+
+  node2:
+    image: httpd:latest
+    container_name: node2
+    volumes:
+      - ./images:/usr/local/apache2/htdocs
+
+  node3:
+    image: httpd:latest
+    container_name: node3
+    volumes:
+      - ./images:/usr/local/apache2/htdocs
+
+  node4:
+    image: httpd:latest
+    container_name: node4
+    volumes:
+      - ./images:/usr/local/apache2/htdocs

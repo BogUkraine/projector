@@ -1,0 +1,18 @@
+$TTL    86400
+@       IN      SOA     ns1.cdn.test. admin.cdn.test. (
+                        2024090901  ; Serial
+                        3600        ; Refresh
+                        1800        ; Retry
+                        1209600     ; Expire
+                        86400 )     ; Minimum TTL
+
+        IN      NS      ns1.cdn.test.
+
+ns1     IN      A       127.0.0.1
+
+lb1     IN   A   172.27.0.7
+lb2     IN   A   172.27.0.6
+node1   IN   A   127.0.0.1
+node2   IN   A   127.0.0.1
+node3   IN   A   127.0.0.1
+node4   IN   A   127.0.0.1
