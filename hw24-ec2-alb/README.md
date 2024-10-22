@@ -1,4 +1,4 @@
-# Homework #18 for Projector course
+# Homework #24 for Projector course
 Create 2 micro instances in AWS.
 Setup application load balancer and assign instances to it.
 
