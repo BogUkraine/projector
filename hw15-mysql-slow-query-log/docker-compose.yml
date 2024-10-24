@@ -1,0 +1,67 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mydatabase
+    volumes:
+      - proj-hw15-mysql:/var/lib/mysql
+      - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./mysql/logs:/var/log/mysql
+    ports:
+      - "3306:3306"
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - proj-hw15-elastic:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+  
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.15.0
+    container_name: logstash
+    volumes:
+      - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./mysql/logs:/var/log/mysql
+    ports:
+      - "5044:5044"
+      
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.15.0
+    container_name: kibana
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+  
+  mongodb:
+    image: mongo:4.2
+    container_name: mongo
+    volumes:
+      - proj-hw15-mongo:/data/db
+
+  graylog:
+    image: graylog/graylog:4.2
+    container_name: graylog
+    environment:
+      GRAYLOG_PASSWORD_SECRET: 0123456789secret1
+      GRAYLOG_ROOT_PASSWORD_SHA2: "$(echo -n 'admin' | sha256sum | awk '{print $1}')"
+      GRAYLOG_HTTP_EXTERNAL_URI: http://localhost:9000/
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    links:
+      - mongodb
+      - elasticsearch
+    ports:
+      - "9000:9000"
+      - "12201:12201/udp"
+
+volumes:
+  proj-hw15-mysql:
+  proj-hw15-elastic:
+  proj-hw15-mongo:

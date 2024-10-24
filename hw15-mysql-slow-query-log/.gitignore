@@ -1,0 +1,7 @@
+mysql/logs/
+elastic_data/
+mongo_data/
+docker-compose.override.yml
+*.log
+.env
+.DS_Store
