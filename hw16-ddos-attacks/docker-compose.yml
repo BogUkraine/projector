@@ -1,0 +1,13 @@
+services:
+  attacker:
+    build:
+      context: .
+    container_name: attacker
+  deffender:
+    image: nginx:alpine
+    container_name: deffender
+    volumes:
+      - ./nginx/index.html:/var/www/index.html
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "8080:80"
