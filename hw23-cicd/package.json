@@ -1,0 +1,20 @@
+{
+    "name": "hw23-cicd",
+    "version": "1.0.0",
+    "description": "Setup CI/CD for your pet project or project based on laradock.",
+    "main": "index.js",
+    "scripts": {
+        "prebuild": "rm -rf dist",
+        "build": "zip -r9q index.zip src/",
+        "layer:build": "cd layer && npm install && cd .. && zip -r layer.zip layer"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "sharp": "^0.33.5"
+    },
+    "devDependencies": {
+        "jest": "^29.7.0"
+    }
+}
