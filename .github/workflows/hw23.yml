@@ -18,12 +18,15 @@ jobs:
           node-version: '20'
 
       - name: Change directory
-        run: cd hw23-cicd
+        working-directory: hw23-cicd
+        run: pwd
 
       - name: Install dependencies
+        working-directory: hw23-cicd
         run: npm install
       
       - name: Run tests
+        working-directory: hw23-cicd
         run: npm run test
 
 #   deploy:
