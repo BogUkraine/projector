@@ -4,6 +4,7 @@
     "description": "Setup CI/CD for your pet project or project based on laradock.",
     "main": "index.js",
     "scripts": {
+        "test": "jest",
         "prebuild": "rm -rf dist",
         "build": "zip -r9q index.zip src/",
         "layer:build": "cd layer && npm install && cd .. && zip -r layer.zip layer"
