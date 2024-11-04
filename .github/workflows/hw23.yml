@@ -63,7 +63,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lambda-layer
-          path: hw23-cicd/layer.zip
+          path: hw23-cicd/layer/layer.zip
 
   deploy:
     runs-on: ubuntu-latest
