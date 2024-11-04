@@ -29,29 +29,85 @@ jobs:
         working-directory: hw23-cicd
         run: npm run test
 
-#   deploy:
-#     needs: test
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
+build:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+      
+      # - name: Install dependencies
+      #   working-directory: hw23-cicd
+      #   run: npm install
 
-#       - name: Set up Node.js
-#         uses: actions/setup-node@v2
-#         with:
-#           node-version: '20'
+      - name: Build Lambda package
+        working-directory: hw23-cicd
+        run: npm run build
 
-#       - name: Install dependencies
-#         run: npm install
+      - name: Build Lambda Layer
+        working-directory: hw23-cicd
+        run: npm run layer:build
 
-#       - name: Zip Lambda package
-#         run: zip -r lambda-package.zip .
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: lambda-package
+          path: hw23-cicd/index.zip
 
-#       - name: Deploy to Lambda
-#         env:
-#           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#           AWS_REGION: "us-east-1"
-#         run: |
-#           terraform init
-#           terraform apply -auto-approve
+      - name: Upload Layer
+        uses: actions/upload-artifact@v2
+        with:
+          name: lambda-layer
+          path: hw23-cicd/layer.zip
+
+deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Download Lambda Package
+        uses: actions/download-artifact@v2
+        with:
+          name: lambda-package
+          path: .
+
+      - name: Download Lambda Layer
+        uses: actions/download-artifact@v2
+        with:
+          name: lambda-layer
+          path: .
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: "us-east-1"
+
+      - name: Deploy Lambda Layer
+        run: |
+          LAYER_VERSION=$(aws lambda publish-layer-version \
+            --layer-name "hsa-layer" \
+            --zip-file "fileb://layer.zip" \
+            --query 'Version' \
+            --output text)
+          echo "LAYER_VERSION=$LAYER_VERSION" >> $GITHUB_ENV
+
+      - name: Deploy Lambda Function
+        env:
+          LAYER_VERSION: ${{ env.LAYER_VERSION }}
+        run: |
+          aws lambda update-function-code \
+            --function-name "hsa-lambda" \
+            --zip-file "fileb://index.zip"
+
+          aws lambda update-function-configuration \
+            --function-name "hsa-lambda" \
+            --layers "arn:aws:lambda:${{ secrets.AWS_REGION }}:${{ secrets.AWS_ACCOUNT_ID }}:layer:hsa-layer:$LAYER_VERSION"
