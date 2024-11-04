@@ -3,7 +3,7 @@ const { convertImage } = require('./converter');
 exports.handler = async (event) => {
     try {
         // Assuming the file is sent as a Base64-encoded string in the event body
-        const base64File = event.body.file;
+        const base64File = JSON.parse(event.body).file;
         const inputBuffer = Buffer.from(base64File, 'base64');
         
         // Example processing: Convert the image to PNG format
