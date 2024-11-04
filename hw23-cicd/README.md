@@ -1,6 +1,6 @@
 # Homework #23,27 for Projector course
-23. Setup CI/CD for your pet project or project based on laradock.
-27. Create Lambda function that will convert JPEG to BMP, GIF, PNG.
+* - 23 - Setup CI/CD for your pet project or project based on laradock.
+* - 27 - Create Lambda function that will convert JPEG to BMP, GIF, PNG.
 
 ## Limitations:
 It is not the best solution to convert images, but it works with a workaround to use base64. But the example of the way it should work is clear: S3 upload + lambda invocation + S3 file download.
