@@ -54,13 +54,13 @@ jobs:
         run: npm run layer:build
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: lambda-package
           path: hw23-cicd/index.zip
 
       - name: Upload Layer
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: lambda-layer
           path: hw23-cicd/layer.zip
