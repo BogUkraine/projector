@@ -1,6 +1,6 @@
 const { convertImage } = require('./converter');
 
-export const handler = async (event) => {
+exports.handler = async (event) => {
     try {
         // Assuming the file is sent as a Base64-encoded string in the event body
         const base64File = event.body.file;
@@ -18,7 +18,7 @@ export const handler = async (event) => {
             body: JSON.stringify({ file: base64Output })
         };
     } catch (err) {
-        console.error("Error processing file:", error);
+        console.error("Error processing file:", err);
         return {
           statusCode: 500,
           body: JSON.stringify({ error: "File processing failed" })

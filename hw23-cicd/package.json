@@ -7,7 +7,7 @@
         "test": "jest",
         "prebuild": "rm -rf dist",
         "build": "zip -r9q index.zip src/",
-        "layer:build": "cd layer && npm install && cd .. && zip -r layer.zip layer"
+        "layer:build": "cd layer/nodejs && npm install && cd .. && zip -r layer.zip nodejs"
     },
     "keywords": [],
     "author": "",
