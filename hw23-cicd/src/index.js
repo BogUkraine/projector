@@ -7,7 +7,8 @@ exports.handler = async (event) => {
         const inputBuffer = Buffer.from(base64File, 'base64');
         
         // Example processing: Convert the image to PNG format
-        const outputBuffer = (await convertImage(inputBuffer)).toBuffer();
+        const output = await convertImage(inputBuffer)
+        const outputBuffer = await output.toBuffer()
         
         // Convert the output back to Base64 for the response
         const base64Output = outputBuffer.toString('base64');
